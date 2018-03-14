@@ -2,6 +2,8 @@
 
 ## Installation
 
+Make sure your credentials are [stored in a `~/.netrc`](https://github.com/octokit/octokit.rb#using-a-netrc-file), then:
+
 ```bash
 script/bootstrap
 ```
@@ -9,5 +11,5 @@ script/bootstrap
 ## Usage
 
 ```bash
-# Coming soon
+./bin/synchrocat synch.yml
 ```
