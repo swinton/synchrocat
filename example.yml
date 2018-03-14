@@ -1,0 +1,9 @@
+---
+source:
+  repo: foo/bar
+  path: docs
+destinations:
+- repo: foo/baz
+  path: docs
+- repo: fox/baz
+  path: docs
