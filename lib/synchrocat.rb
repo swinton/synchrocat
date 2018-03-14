@@ -16,6 +16,14 @@ module Synchrocat
       # Make sure we have an array of files, even if a single file was specified
       source = [source] unless source.kind_of?(Array)
 
+      # Make sure we have the contents of each file in source
+      source.map! do |s|
+        if s.content.nil?
+          s = self.octokit.contents(configuration['source']['repo'], :path => s.path)
+        end
+        s
+      end
+
       # Synch across destination repos
       configuration['destinations'].each do |destination|
         # Fetch master
