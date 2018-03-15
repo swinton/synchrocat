@@ -41,7 +41,7 @@ module Synchrocat
         # Update each file from source
         source.each do |file|
           # Look for existing file in tree
-          existing = tree.select { |t| t.path == "#{destination['path']}/#{file.name}" }
+          existing = tree.select { |t| t.path == "#{destination['path']}#{file.name}" }
 
           if existing.empty?
             # Not found, create file on destination repo

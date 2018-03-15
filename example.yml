@@ -4,6 +4,6 @@ source:
   path: docs
 destinations:
 - repo: foo/baz
-  path: docs
+  path: docs/
 - repo: fox/baz
-  path: docs
+  path: docs/
