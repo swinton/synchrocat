@@ -31,7 +31,7 @@ module Synchrocat
 
         # Branch off master
         branch = self.octokit.create_ref(destination['repo'],
-          "heads/branch/synchrocat/#{Time.now.to_i}",
+          "heads/synchrocat/#{Time.now.to_i}",
           master.object.sha)
 
         # Fetch tree, recursively
