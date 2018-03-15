@@ -40,15 +40,18 @@ module Synchrocat
 
         # Update each file from source
         source.each do |file|
-          # Look for existing file in tree
-          existing = tree.select { |t| t.path == "#{destination['path']}#{file.name}" }
+          # Construct destination path
+          path = self.destination_path(destination['path'], file.name)
+
+          # Look for existing path in destination tree
+          existing = tree.select { |t| t.path == path }
 
           if existing.empty?
             # Not found, create file on destination repo
             self.octokit.create_contents(
               destination['repo'], # repo
-              "#{destination['path']}/#{file.name}", # path
-              "Create #{destination['path']}/#{file.name}", # message
+              path, # path
+              "Create #{path}", # message
               Base64.decode64(file.content), # contents
               :branch => branch.ref # branch
             )
@@ -57,8 +60,8 @@ module Synchrocat
             existing = existing[0]
             self.octokit.update_contents(
               destination['repo'], # repo
-              existing.path, # path
-              "Update #{existing.path}", # message
+              path, # path
+              "Update #{path}", # message
               existing.sha, # blob sha
               Base64.decode64(file.content), # contents
               :branch => branch.ref # branch
@@ -75,6 +78,17 @@ module Synchrocat
       return @octokit if defined?(@octokit)
 
       @octokit = Octokit::Client.new(:netrc => true)
+    end
+
+    def destination_path(dest, file_name)
+      # dest may be nil, cast to String, remove trailing slash
+      path = dest.to_s.chomp('/')
+
+      # join with '/', unless we're just saving in the root
+      path += '/' unless path.length == 0
+
+      # join with file_name
+      path += file_name
     end
 
     def validate(configuration)
