@@ -6,7 +6,7 @@ require_relative 'synchrocat/cli'
 module Synchrocat
 
   class << self
-    def process(configuration)
+    def process(configuration, opts={})
       # Validate the configuration
       raise 'Invalid configuration' unless self.validate(configuration)
 
@@ -31,7 +31,7 @@ module Synchrocat
 
         # Branch off master
         branch = self.octokit.create_ref(destination['repo'],
-          "heads/synchrocat/#{Time.now.to_i}",
+          "heads/" + (opts[:branch] || "synchrocat/#{Time.now.to_i}"),
           master.object.sha)
 
         # Fetch tree, recursively

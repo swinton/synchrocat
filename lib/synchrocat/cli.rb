@@ -17,18 +17,22 @@ module Synchrocat
             puts opt_parser
             exit
         end
+
+        opt.on("-b", "--branch=val", "name of branch to create on destination repos") do |branch|
+          options[:branch] = branch
+        end
       end
 
       opt_parser.parse!(args)
 
       # Require config.yml
-      if ARGV.length != 1
+      if ARGV.length == 0
         puts opt_parser
         exit
       end
 
-      config = YAML.load_file(ARGV[0])
-      Synchrocat.process(config)
+      config = YAML.load_file(ARGV[-1])
+      Synchrocat.process(config, options)
     end
   end
 end
