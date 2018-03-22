@@ -26,6 +26,8 @@ module Synchrocat
 
       # Synch across destination repos
       configuration['destinations'].each do |destination|
+        puts "Syncing with #{destination['repo']}..."
+
         # Fetch master
         master = self.octokit.ref(destination['repo'], 'heads/master')
 
@@ -40,6 +42,7 @@ module Synchrocat
 
         # Update each file from source
         source.each do |file|
+          print "#{file.name}..."
           # Construct destination path
           path = self.destination_path(destination['path'], file.name)
 
@@ -67,6 +70,8 @@ module Synchrocat
               :branch => branch.ref # branch
             )
           end
+          print " ✔\n"
+          STDOUT.flush
         end
       end
     end
